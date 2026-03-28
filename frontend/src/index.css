@@ -2367,6 +2367,23 @@ body {
   margin-top: 20px;
 }
 
+.auth-skip {
+  display: block;
+  margin: 12px auto 0;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 8px;
+}
+
+.auth-skip:hover {
+  color: var(--cyan);
+}
+
 /* ========================================
    Profile Dropdown
    ======================================== */

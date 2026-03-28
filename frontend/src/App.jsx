@@ -56,6 +56,13 @@ export default function App() {
     setPage('home')
   }
 
+  const handleSkipAuth = () => {
+    const guest = { email: 'guest', name: 'Guest' }
+    setAuthUser(guest)
+    setUserProfile({ name: 'Guest', email: 'guest' })
+    setPage('home')
+  }
+
   const handleProfileComplete = (profile) => {
     const enrichedProfile = { ...profile, email: authUser?.email }
     setUserProfile(enrichedProfile)
@@ -139,7 +146,7 @@ export default function App() {
       <>
         <div className="app-background" />
         <ParticleBackground />
-        <AuthPage onAuth={handleAuth} />
+        <AuthPage onAuth={handleAuth} onSkip={handleSkipAuth} />
       </>
     )
   }

@@ -35,7 +35,7 @@ function loginUser(email, name) {
   localStorage.setItem(AUTH_KEY, JSON.stringify({ email, name, loggedInAt: new Date().toISOString() }))
 }
 
-export default function AuthPage({ onAuth }) {
+export default function AuthPage({ onAuth, onSkip }) {
   const [mode, setMode] = useState('login') // 'login' | 'signup'
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -190,6 +190,14 @@ export default function AuthPage({ onAuth }) {
         <p className="auth-disclaimer">
           🔒 Your data stays on your device. No server storage.
         </p>
+
+        <button
+          className="auth-skip"
+          onClick={onSkip}
+          id="auth-skip-btn"
+        >
+          Skip for now →
+        </button>
       </div>
     </div>
   )
