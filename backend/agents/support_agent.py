@@ -12,7 +12,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 async def generate_first_aid(symptoms: dict, conditions: list, severity: dict) -> dict:
     """Generate first aid steps based on symptoms, conditions, and severity."""
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.0-flash-lite")
 
     prompt = f"""You are a first aid and immediate care guidance agent. Generate practical, safe first aid steps.
 

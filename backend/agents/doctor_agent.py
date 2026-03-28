@@ -13,7 +13,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 async def recommend_doctor(conditions: list, severity: dict) -> dict:
     """Recommend a doctor specialty based on conditions and severity."""
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.0-flash-lite")
 
     prompt = f"""You are a medical referral agent. Recommend the most appropriate doctor specialty.
 
