@@ -1,3 +1,6 @@
+#Deployed on :- https://swasthya-ai-lyart.vercel.app/
+
+
 # 🏥 SwasthyaAI — Your AI Health Guardian
 
 > AI-powered health assistant that analyzes symptoms, detects severity, and provides instant medical guidance using autonomous AI agents.
