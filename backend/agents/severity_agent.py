@@ -12,7 +12,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 async def assess_severity(symptoms: dict, conditions: list) -> dict:
     """Assess severity level and urgency score for the given symptoms and conditions."""
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    model = genai.GenerativeModel("gemini-1.5-flash")
 
     prompt = f"""You are a medical severity assessment agent. Evaluate the urgency of the patient's situation.
 

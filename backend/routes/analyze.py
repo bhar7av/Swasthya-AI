@@ -41,44 +41,68 @@ async def analyze_health(
         image_data = await image.read()
         image_mime = image.content_type
 
-    # ─── Stage 1: Symptom Extraction ─────────────────────────
-    symptoms = await extract_symptoms(text, image_data, image_mime)
+    try:
+        # ─── Stage 1: Symptom Extraction ─────────────────────────
+        symptoms = await extract_symptoms(text, image_data, image_mime)
 
-    # ─── Stage 2: Parallel — Conditions + Mental Health ──────
-    conditions_task = analyze_conditions(symptoms)
-    mental_task = evaluate_mental_health(text, symptoms)
-    conditions, mental_health = await asyncio.gather(conditions_task, mental_task)
+        await asyncio.sleep(2)  # Rate limit buffer
 
-    # ─── Stage 3: Parallel — Severity + Doctor ───────────────
-    severity_task = assess_severity(symptoms, conditions)
-    doctor_task = recommend_doctor(conditions, {"level": "attention", "urgencyScore": 5})
-    severity, doctor = await asyncio.gather(severity_task, doctor_task)
+        # ─── Stage 2: Parallel — Conditions + Mental Health ──────
+        conditions_task = analyze_conditions(symptoms)
+        mental_task = evaluate_mental_health(text, symptoms)
+        conditions, mental_health = await asyncio.gather(conditions_task, mental_task)
 
-    # Update doctor recommendation with actual severity
-    if severity.get("level") == "critical":
-        doctor = await recommend_doctor(conditions, severity)
+        await asyncio.sleep(2)  # Rate limit buffer
 
-    # ─── Stage 4: First Aid ──────────────────────────────────
-    first_aid = await generate_first_aid(symptoms, conditions, severity)
+        # ─── Stage 3: Parallel — Severity + Doctor ───────────────
+        severity_task = assess_severity(symptoms, conditions)
+        doctor_task = recommend_doctor(conditions, {"level": "attention", "urgencyScore": 5})
+        severity, doctor = await asyncio.gather(severity_task, doctor_task)
 
-    # ─── Stage 5: Self-Evaluation ────────────────────────────
-    full_analysis = {
-        "symptoms": symptoms,
-        "conditions": conditions,
-        "severity": severity,
-        "mentalHealth": mental_health,
-        "firstAid": first_aid,
-        "doctor": doctor,
-    }
-    self_eval = await self_evaluate(full_analysis)
+        await asyncio.sleep(2)  # Rate limit buffer
 
-    # ─── Final Response ──────────────────────────────────────
-    return {
-        "severity": severity,
-        "conditions": conditions,
-        "firstAid": first_aid,
-        "doctor": doctor,
-        "mentalHealth": mental_health,
-        "selfEvaluation": self_eval,
-        "extractedSymptoms": symptoms,
-    }
+        # Update doctor recommendation with actual severity
+        if severity.get("level") == "critical":
+            doctor = await recommend_doctor(conditions, severity)
+            await asyncio.sleep(1)
+
+        # ─── Stage 4: First Aid ──────────────────────────────────
+        first_aid = await generate_first_aid(symptoms, conditions, severity)
+
+        await asyncio.sleep(2)  # Rate limit buffer
+
+        # ─── Stage 5: Self-Evaluation ────────────────────────────
+        full_analysis = {
+            "symptoms": symptoms,
+            "conditions": conditions,
+            "severity": severity,
+            "mentalHealth": mental_health,
+            "firstAid": first_aid,
+            "doctor": doctor,
+        }
+        self_eval = await self_evaluate(full_analysis)
+
+        # ─── Final Response ──────────────────────────────────────
+        return {
+            "severity": severity,
+            "conditions": conditions,
+            "firstAid": first_aid,
+            "doctor": doctor,
+            "mentalHealth": mental_health,
+            "selfEvaluation": self_eval,
+            "extractedSymptoms": symptoms,
+        }
+
+    except Exception as e:
+        error_msg = str(e)
+        # Return a graceful error response the frontend can handle
+        return {
+            "severity": {"level": "attention", "urgencyScore": 5, "reasoning": f"Error in assessment: {error_msg}"},
+            "conditions": [{"name": "Analysis Error", "confidence": 0, "description": error_msg}],
+            "firstAid": {"steps": ["Please try again in a few minutes.", "If symptoms are severe, contact emergency services (112)."]},
+            "doctor": {"specialty": "General Physician", "reason": "Please consult a doctor for proper evaluation.", "mapsUrl": "https://www.google.com/maps/search/doctor+near+me"},
+            "mentalHealth": {"state": "Unknown", "message": "Analysis could not be completed. Please try again."},
+            "selfEvaluation": {"reliabilityScore": 0, "notes": f"Pipeline error: {error_msg}"},
+            "extractedSymptoms": {"symptoms": [{"name": text or "unknown", "bodyArea": "unknown", "duration": "unknown", "intensity": "unknown"}]},
+        }
+

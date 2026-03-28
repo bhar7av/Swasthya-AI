@@ -12,7 +12,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 async def evaluate_mental_health(original_text: str, symptoms: dict) -> dict:
     """Evaluate the patient's mental health state from their input."""
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    model = genai.GenerativeModel("gemini-1.5-flash")
 
     prompt = f"""You are a compassionate mental health evaluation agent. Analyze the patient's text for mental health indicators.
 

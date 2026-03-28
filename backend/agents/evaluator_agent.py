@@ -13,7 +13,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 async def self_evaluate(full_analysis: dict) -> dict:
     """AI self-evaluates the combined analysis for reliability."""
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    model = genai.GenerativeModel("gemini-1.5-flash")
 
     prompt = f"""You are a medical AI self-evaluation agent. Your job is to critically review the combined analysis from other AI agents and assess its reliability.
 

@@ -12,7 +12,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 async def analyze_conditions(symptoms: dict) -> list:
     """Analyze symptoms and predict possible conditions with confidence scores."""
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    model = genai.GenerativeModel("gemini-1.5-flash")
 
     symptoms_text = json.dumps(symptoms, indent=2)
 

@@ -12,7 +12,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 async def extract_symptoms(text: str = "", image_data: bytes = None, image_mime: str = None) -> dict:
     """Extract structured symptoms from text and/or image input."""
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    model = genai.GenerativeModel("gemini-1.5-flash")
 
     prompt = """You are a medical symptom extraction agent. Analyze the patient's input and extract all symptoms mentioned.
 
