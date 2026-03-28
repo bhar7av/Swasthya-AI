@@ -68,6 +68,7 @@ export default function App() {
     setResults(null)
     setLastInputText(text)
 
+
     try {
       const formData = new FormData()
       formData.append('text', text || '')
@@ -82,7 +83,8 @@ export default function App() {
         formData.append('medications', userProfile.medications || '')
       }
 
-      const res = await fetch('/api/analyze', {
+      const API_URL = import.meta.env.VITE_API_URL || ''
+      const res = await fetch(`${API_URL}/api/analyze`, {
         method: 'POST',
         body: formData,
       })
