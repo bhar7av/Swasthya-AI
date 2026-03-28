@@ -1142,32 +1142,421 @@ body {
 /* ========================================
    Responsive
    ======================================== */
-@media (max-width: 768px) {
-  .results-grid {
-    grid-template-columns: 1fr;
-  }
+/* ========================================
+   Hamburger Menu
+   ======================================== */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  z-index: 100;
+}
 
-  .hero-stats {
-    gap: 24px;
-    flex-wrap: wrap;
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ========================================
+   Mobile Responsive
+   ======================================== */
+@media (max-width: 768px) {
+  /* --- Hamburger Nav --- */
+  .hamburger {
+    display: flex;
   }
 
   .navbar {
-    padding: 12px 16px;
+    padding: 10px 16px;
+    flex-wrap: wrap;
   }
 
   .navbar-links {
-    gap: 4px;
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 0;
+    order: 3;
+    padding-top: 12px;
+    border-top: 1px solid var(--glass-border);
+    margin-top: 12px;
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+
+  .navbar-links li {
+    width: 100%;
   }
 
   .navbar-links a {
-    padding: 6px 12px;
+    display: block;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    border-radius: var(--radius-md);
+  }
+
+  .navbar-links a:hover,
+  .navbar-links a.active {
+    background: var(--surface-hover);
+  }
+
+  .mobile-nav-divider {
+    height: 1px;
+    background: var(--glass-border);
+    margin: 8px 0;
+    list-style: none;
+  }
+
+  .mobile-nav-logout {
+    color: var(--critical) !important;
+  }
+
+  .navbar-right {
+    gap: 8px;
+  }
+
+  .profile-badge-name,
+  .profile-chevron {
+    display: none;
+  }
+
+  .profile-badge {
+    padding: 4px;
+  }
+
+  .profile-dropdown {
+    right: -8px;
+    min-width: 200px;
+  }
+
+  /* --- Hero Section --- */
+  .hero-section {
+    padding: 100px 16px 40px;
+    min-height: auto;
+  }
+
+  .hero-badge {
+    font-size: 0.75rem;
+    padding: 6px 14px;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 24px;
+  }
+
+  .hero-stats {
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 36px;
+  }
+
+  .hero-stat-value {
+    font-size: 1.5rem;
+  }
+
+  .heartbeat-container {
+    margin-top: 32px;
+  }
+
+  /* --- Analyze / Input Section --- */
+  .analyze-section {
+    padding: 40px 16px;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .section-header {
+    margin-bottom: 24px;
+  }
+
+  .symptom-textarea {
+    min-height: 120px;
+    padding: 16px;
+    font-size: 0.9rem;
+  }
+
+  .upload-zone {
+    padding: 20px;
+  }
+
+  .analyze-btn {
+    padding: 14px 32px;
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  /* --- Body Map --- */
+  .body-map-svg {
+    max-width: 220px;
+  }
+
+  .body-map-title {
+    font-size: 0.95rem;
+  }
+
+  .body-chip {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+  }
+
+  /* --- Results --- */
+  .results-section {
+    padding: 24px 16px 80px;
+  }
+
+  .results-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .results-tabs {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .results-tab {
+    padding: 8px 14px;
     font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .severity-gauge {
+    width: 140px;
+    height: 140px;
+  }
+
+  .severity-gauge svg {
+    width: 140px;
+    height: 140px;
+  }
+
+  .severity-gauge-score {
+    font-size: 2rem;
+  }
+
+  .condition-item {
+    padding: 14px;
   }
 
   .doctor-card-inner {
     flex-direction: column;
     text-align: center;
+  }
+
+  .doctor-find-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* --- Charts --- */
+  .radar-svg {
+    max-width: 240px;
+  }
+
+  .risk-meter-svg {
+    max-width: 240px;
+  }
+
+  .conf-bar-name {
+    font-size: 0.8rem;
+  }
+
+  /* --- Health History --- */
+  .history-section {
+    padding: 40px 16px;
+  }
+
+  .history-stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .history-stat-card {
+    padding: 14px;
+  }
+
+  .history-stat-value {
+    font-size: 1.5rem;
+  }
+
+  .history-card {
+    padding: 12px 14px;
+  }
+
+  .history-card-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* --- Profile Setup --- */
+  .profile-overlay {
+    padding: 16px;
+  }
+
+  .profile-card {
+    padding: 24px;
+  }
+
+  .profile-title {
+    font-size: 1.4rem;
+  }
+
+  .profile-row {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-actions {
+    flex-direction: column;
+  }
+
+  .profile-actions .btn-primary,
+  .profile-actions .btn-secondary {
+    width: 100%;
+  }
+
+  /* --- Auth Page --- */
+  .auth-card {
+    margin: 16px;
+    padding: 24px;
+  }
+
+  .auth-title {
+    font-size: 1.4rem;
+  }
+
+  .auth-logo .navbar-logo-text {
+    font-size: 1.4rem !important;
+  }
+
+  /* --- Mental Health --- */
+  .mental-section {
+    padding: 40px 16px;
+  }
+
+  .chat-container {
+    max-height: 400px;
+    padding: 16px;
+  }
+
+  .chat-message {
+    max-width: 90%;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  .chat-input-row {
+    gap: 8px;
+  }
+
+  .chat-input {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .chat-send-btn {
+    padding: 12px 18px;
+  }
+
+  .breathing-widget {
+    padding: 24px;
+  }
+
+  .breathing-circle {
+    width: 90px;
+    height: 90px;
+    font-size: 0.85rem;
+  }
+
+  /* --- Loading --- */
+  .loading-agent {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+  }
+
+  /* --- Glass Card padding --- */
+  .glass-card {
+    padding: 20px;
+  }
+
+  /* --- Footer --- */
+  .footer {
+    padding: 20px 16px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 380px) {
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-stats {
+    gap: 12px;
+  }
+
+  .hero-stat-value {
+    font-size: 1.2rem;
+  }
+
+  .navbar-logo-text {
+    font-size: 1rem;
+  }
+
+  .body-map-svg {
+    max-width: 180px;
+  }
+
+  .results-tab {
+    padding: 6px 10px;
+    font-size: 0.75rem;
   }
 }
 
@@ -1780,41 +2169,7 @@ body {
   font-size: 0.85rem;
 }
 
-/* ========================================
-   Responsive Updates
-   ======================================== */
-@media (max-width: 768px) {
-  .results-tabs {
-    width: 100%;
-    overflow-x: auto;
-  }
 
-  .history-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .profile-row {
-    grid-template-columns: 1fr;
-  }
-
-  .navbar-right {
-    gap: 8px;
-  }
-
-  .profile-badge-name {
-    display: none;
-  }
-
-  .navbar-links a {
-    padding: 6px 8px;
-    font-size: 0.75rem;
-  }
-
-  .auth-card {
-    margin: 16px;
-    padding: 28px;
-  }
-}
 
 /* ========================================
    Auth Page

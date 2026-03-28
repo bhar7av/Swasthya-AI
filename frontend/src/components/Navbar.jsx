@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 
 export default function Navbar({ currentPage, onNavigate, userProfile, showSOS, onLogout }) {
   const [showDropdown, setShowDropdown] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const dropdownRef = useRef(null)
 
   // Close dropdown on outside click
@@ -15,7 +16,19 @@ export default function Navbar({ currentPage, onNavigate, userProfile, showSOS, 
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
 
+  // Close mobile menu on page change
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [currentPage])
+
   const initial = userProfile?.name?.charAt(0)?.toUpperCase() || 'U'
+
+  const navLinks = [
+    { key: 'home', label: 'Home' },
+    { key: 'analyze', label: 'Analyze' },
+    { key: 'mental', label: 'Mental Health' },
+    { key: 'history', label: 'History' },
+  ]
 
   return (
     <nav className="navbar" id="main-navbar">
@@ -24,43 +37,51 @@ export default function Navbar({ currentPage, onNavigate, userProfile, showSOS, 
         <span className="navbar-logo-text">SwasthyaAI</span>
       </a>
 
-      <ul className="navbar-links">
-        <li>
-          <a
-            href="#"
-            className={currentPage === 'home' ? 'active' : ''}
-            onClick={(e) => { e.preventDefault(); onNavigate('home'); }}
-          >
-            Home
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className={currentPage === 'analyze' ? 'active' : ''}
-            onClick={(e) => { e.preventDefault(); onNavigate('analyze'); }}
-          >
-            Analyze
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className={currentPage === 'mental' ? 'active' : ''}
-            onClick={(e) => { e.preventDefault(); onNavigate('mental'); }}
-          >
-            Mental Health
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className={currentPage === 'history' ? 'active' : ''}
-            onClick={(e) => { e.preventDefault(); onNavigate('history'); }}
-          >
-            History
-          </a>
-        </li>
+      {/* Hamburger button */}
+      <button
+        className={`hamburger ${menuOpen ? 'active' : ''}`}
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle menu"
+        id="hamburger-btn"
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      {/* Nav links */}
+      <ul className={`navbar-links ${menuOpen ? 'open' : ''}`}>
+        {navLinks.map((link) => (
+          <li key={link.key}>
+            <a
+              href="#"
+              className={currentPage === link.key ? 'active' : ''}
+              onClick={(e) => { e.preventDefault(); onNavigate(link.key); }}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+        {/* Mobile-only items */}
+        {menuOpen && (
+          <>
+            <li className="mobile-nav-divider" />
+            <li>
+              <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('profile'); }}>
+                👤 Edit Profile
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="mobile-nav-logout"
+                onClick={(e) => { e.preventDefault(); onLogout(); }}
+              >
+                🚪 Log Out
+              </a>
+            </li>
+          </>
+        )}
       </ul>
 
       <div className="navbar-right">
